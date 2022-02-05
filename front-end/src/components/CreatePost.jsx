@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 
-export const Home = () => {
+export const CreatePost = () => {
   const initialPostValue = {
     post: "",
   };
@@ -22,6 +22,7 @@ export const Home = () => {
     const data = {
       post: newPostData.post,
     };
+    console.log(data);
     fetch("http://localhost:8080/timeline/post/post", {
       method: "POST",
       headers: {
@@ -29,7 +30,10 @@ export const Home = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    }).then(alert("保存完了しました。"));
+    }).then(() => {
+      alert("保存完了しました。");
+      window.location.reload();
+    });
   };
 
   return (

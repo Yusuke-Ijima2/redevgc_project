@@ -15,9 +15,10 @@ func newRouter() *echo.Echo {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
-	e.POST("timeline/post", controller.PostCreate())
-	e.GET("timeline/post/:id", controller.PostShow())
-	e.PUT("timeline/post/:id", controller.PostUpdate())
-	e.DELETE("timeline/post/:id", controller.PostDelete())
+	e.POST("timeline/post/post", controller.PostCreate())
+	e.GET("timeline/post/get/:id", controller.PostShow())
+	e.GET("timeline/post/get", controller.PostShowAll())
+	e.PUT("timeline/post/put/:id", controller.PostUpdate())
+	e.DELETE("timeline/post/delete/:id", controller.PostDelete())
 	return e
 }

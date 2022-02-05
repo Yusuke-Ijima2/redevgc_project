@@ -30,12 +30,20 @@ func PostShow() echo.HandlerFunc {
 		defer db.Close()
 		timeline := model.Timeline{}
 		timeline_id := c.Param("id")
-		result := db.Table("timelines").Select([]string{
-			"id",
-			"post",
-			"created_at",
-			"updated_at",
-			"deleted_at"}).Find(&timeline, "id = ?", timeline_id)
+		result := db.Table("timelines").Find(&timeline, "id = ?", timeline_id)
+		if result.RecordNotFound() {
+			fmt.Println("レコードが見つかりません")
+		}
+		return c.JSON(http.StatusOK, timeline)
+	}
+}
+
+func PostShowAll() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		db := dbconnect.Connect()
+		defer db.Close()
+		timeline := []model.Timeline{}
+		result := db.Table("timelines").Find(&timeline)
 		if result.RecordNotFound() {
 			fmt.Println("レコードが見つかりません")
 		}
