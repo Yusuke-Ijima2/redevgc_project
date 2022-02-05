@@ -1,0 +1,8 @@
+development:
+  dialect: mysql
+
+  datasource: me:yusuke1120@tcp(127.0.0.1)/ReDevGC?charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true
+
+  dir: sql/migrations
+
+  table: migrations
