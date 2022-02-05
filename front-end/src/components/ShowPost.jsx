@@ -14,25 +14,13 @@ export const ShowPost = () => {
   const onClickDuplicate = (id) => {
     fetch("http://localhost:8080/timeline/post/get/" + id)
       .then((res) => res.json())
-      .then((json) => {
-        const data = {
-          post: json.post,
-        };
-        fetch("http://localhost:8080/timeline/post/post", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }).then(() => {
-          // alert("複製完了しました。");
-          window.location.reload();
-        });
+      .then(() => {
+        window.location.reload();
       });
   };
 
   const onClickDelete = (id) => {
+    console.log(id);
     fetch("http://localhost:8080/timeline/post/delete/" + id, {
       method: "DELETE",
     }).then(() => {
@@ -40,18 +28,9 @@ export const ShowPost = () => {
     });
   };
 
-  // const onClickDelete = (id) => {
-  //   window.confirm("本当に削除しますか？") === true
-  //     ? fetch("http://localhost:8080/timeline/post/delete/" + id, {
-  //         method: "DELETE",
-  //       }).then(() => {
-  //         window.location.reload();
-  //       })
-  //     : alert("キャンセルしました。");
-  // };
-
   return (
     <>
+      {console.log(posts)}
       {posts.map((post) => (
         <ul key={post.id}>
           <li>
