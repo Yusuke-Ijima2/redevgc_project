@@ -8,7 +8,6 @@ export const ShowPost = () => {
       .then((res) => res.json())
       .then((json) => {
         setPosts(json);
-        // window.location.reload();
       });
   }, []);
 
@@ -21,6 +20,7 @@ export const ShowPost = () => {
   };
 
   const onClickDelete = (id) => {
+    console.log(id);
     fetch("http://localhost:8080/timeline/post/delete/" + id, {
       method: "DELETE",
     }).then(() => {
@@ -30,6 +30,7 @@ export const ShowPost = () => {
 
   return (
     <>
+      {console.log(posts)}
       {posts.map((post) => (
         <ul key={post.id}>
           <li>
@@ -37,12 +38,12 @@ export const ShowPost = () => {
             <input
               type="submit"
               value="複製"
-              onClick={onClickDuplicate(post.id)}
+              onClick={() => onClickDuplicate(post.id)}
             />
             <input
               type="submit"
               value="削除"
-              onClick={onClickDelete(post.id)}
+              onClick={() => onClickDelete(post.id)}
             />
           </li>
         </ul>

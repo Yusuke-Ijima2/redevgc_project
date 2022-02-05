@@ -29,7 +29,10 @@ export const Home = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    }).then(alert("保存完了しました。"));
+    }).then(() => {
+      alert("保存完了しました。");
+      window.location.reload();
+    });
   };
 
   return (
