@@ -1,42 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import Modal from "react-modal";
 
-export const SUDPost = () => {
+export const SUDPost = memo(() => {
   const [posts, setPosts] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [edit, setEdit] = useState("");
   const [keepId, setKeepId] = useState(0);
 
-  // //削除
-  // const onClickDelete = (id) => {
-  //   fetch("http://localhost:8080/timeline/post/delete/" + id, {
-  //     method: "DELETE",
-  //   }).then(() => {
-  //     window.location.reload();
-  //   });
-  // };
+  //削除
+  const onClickDelete = (id) => {
+    fetch("http://localhost:8080/timeline/post/delete/" + id, {
+      method: "DELETE",
+    }).then(() => {
+      window.location.reload();
+    });
+  };
 
-  // //複製
-  // const onClickDuplicate = (id) => {
-  //   fetch("http://localhost:8080/timeline/post/get/" + id)
-  //     .then((res) => res.json())
-  //     .then((json) => {
-  //       const data = {
-  //         post: json.post,
-  //       };
-  //       fetch("http://localhost:8080/timeline/post/post", {
-  //         method: "POST",
-  //         headers: {
-  //           Accept: "application/json",
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(data),
-  //       }).then(() => {
-  //         alert("複製完了しました。");
-  //         window.location.reload();
-  //       });
-  //     });
-  // };
+  //複製
+  const onClickDuplicate = (id) => {
+    fetch("http://localhost:8080/timeline/post/get/" + id)
+      .then((res) => res.json())
+      .then((json) => {
+        const data = {
+          post: json.post,
+        };
+        fetch("http://localhost:8080/timeline/post/post", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }).then(() => {
+          alert("複製完了しました。");
+          window.location.reload();
+        });
+      });
+  };
 
   //編集
 
@@ -49,9 +49,7 @@ export const SUDPost = () => {
       });
   }, []);
 
-  const onClickEdit = (id) => {
-    //クリックした投稿のidを保持
-    setKeepId(id);
+  const onClickEdit = useCallback((id) => {
     //モーダルを開く
     setModalIsOpen(true);
     fetch("http://localhost:8080/timeline/post/get/" + id)
@@ -60,15 +58,17 @@ export const SUDPost = () => {
         //取ってきた投稿を保持
         setEdit(json.post);
       });
-  };
+    //クリックした投稿のidを保持
+    setKeepId(id);
+  }, []);
 
   //フォームの中を変更できるようにする
-  const handleEdit = (e) => {
+  const handleEdit = useCallback((e) => {
     setEdit(e.target.value);
-  };
+  }, []);
 
   //更新
-  const onClickUpdate = () => {
+  const onClickUpdate = useCallback(() => {
     const data = {
       post: edit,
     };
@@ -84,7 +84,7 @@ export const SUDPost = () => {
       alert("編集完了しました。");
       window.location.reload();
     });
-  };
+  }, [edit, keepId]);
 
   return (
     <>
@@ -92,7 +92,7 @@ export const SUDPost = () => {
         <ul key={post.id}>
           <li>
             <p>{post.post}</p>
-            {/* <input
+            <input
               type="submit"
               value="削除"
               onClick={() => onClickDelete(post.id)}
@@ -101,13 +101,13 @@ export const SUDPost = () => {
               type="submit"
               value="複製"
               onClick={() => onClickDuplicate(post.id)}
-            /> */}
+            />
             <input
               type="submit"
               value="編集"
               onClick={() => onClickEdit(post.id)}
             />
-            <Modal isOpen={modalIsOpen}>
+            <Modal isOpen={modalIsOpen} ariaHideApp={false}>
               <input
                 type="submit"
                 value="閉じる"
@@ -134,4 +134,4 @@ export const SUDPost = () => {
       ))}
     </>
   );
-};
+});
