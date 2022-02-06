@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 
-export const Home = () => {
+export const UpdatePost = () => {
   const initialPostValue = {
     post: "",
   };
@@ -39,7 +39,7 @@ export const Home = () => {
     <>
       <div>
         <label>投稿</label>
-        <textarea
+        <input
           type="text"
           id="post"
           name="post"
