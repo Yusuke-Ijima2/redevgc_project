@@ -1,5 +1,6 @@
 import React, { memo, useCallback, useEffect, useState } from "react";
 import Modal from "react-modal";
+//test
 
 export const SUDPost = memo(() => {
   const [posts, setPosts] = useState([]);
@@ -9,11 +10,12 @@ export const SUDPost = memo(() => {
 
   //削除
   const onClickDelete = (id) => {
-    fetch("http://localhost:8080/timeline/post/delete/" + id, {
-      method: "DELETE",
-    }).then(() => {
-      window.location.reload();
-    });
+    window.confirm("本当に削除しますか？") &&
+      fetch("http://localhost:8080/timeline/post/delete/" + id, {
+        method: "DELETE",
+      }).then(() => {
+        window.location.reload();
+      });
   };
 
   //複製
