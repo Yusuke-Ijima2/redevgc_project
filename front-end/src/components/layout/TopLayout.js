@@ -1,7 +1,6 @@
 import { CreatePost } from "../pages/CreatePost";
-import { ShowDeleatePost } from "../pages/ShowDeletePost";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-// import { UpdatePost } from "../pages/UpdatePost";
+import { SUDPost } from "../pages/SUDPost";
 
 export const TopLayout = () => {
   return (
@@ -10,12 +9,8 @@ export const TopLayout = () => {
         <Switch>
           <Route exact path="/">
             <CreatePost />
-            <ShowDeleatePost />
+            <SUDPost />
           </Route>
-
-          {/* <Route path="/edit">
-            <UpdatePost />
-          </Route> */}
         </Switch>
       </BrowserRouter>
     </>
