@@ -35,7 +35,6 @@ export const CreatePost = () => {
     });
   };
 
-  //push用
   return (
     <>
       <div>
