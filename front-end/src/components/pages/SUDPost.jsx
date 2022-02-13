@@ -41,7 +41,6 @@ export const SUDPost = memo(() => {
   };
 
   //編集
-
   //投稿一覧を取ってくる
   useEffect(() => {
     fetch("http://localhost:8080/timeline/post/get")
