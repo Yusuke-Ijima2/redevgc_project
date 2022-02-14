@@ -18,7 +18,7 @@ export const SUDPost = memo(() => {
       });
   };
 
-  //複製
+  //複製qq
   const onClickDuplicate = (id) => {
     fetch("http://localhost:8080/timeline/post/get/" + id)
       .then((res) => res.json())
