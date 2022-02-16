@@ -1,12 +1,10 @@
 import React, { memo, useCallback, useEffect, useState } from "react";
 import Modal from "react-modal";
-//test
 
 export const SUDPost = memo(() => {
   const [posts, setPosts] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [edit, setEdit] = useState("");
-  const [keepId, setKeepId] = useState(0);
+  const [edit, setEdit] = useState({ post: "" });
 
   //削除
   const onClickDelete = (id) => {
@@ -18,7 +16,7 @@ export const SUDPost = memo(() => {
       });
   };
 
-  //複製qq
+  //複製
   const onClickDuplicate = (id) => {
     fetch("http://localhost:8080/timeline/post/get/" + id)
       .then((res) => res.json())
@@ -57,35 +55,38 @@ export const SUDPost = memo(() => {
       .then((res) => res.json())
       .then((json) => {
         //取ってきた投稿を保持
-        setEdit(json.post);
+        console.log(json);
+        setEdit(json);
       });
-    //クリックした投稿のidを保持
-    setKeepId(id);
   }, []);
 
   //フォームの中を変更できるようにする
   const handleEdit = useCallback((e) => {
-    setEdit(e.target.value);
+    const { name, value } = e.target;
+    setEdit({ [name]: value });
   }, []);
 
   //更新
-  const onClickUpdate = useCallback(() => {
-    const data = {
-      post: edit,
-    };
-    //保持したidを使って更新
-    fetch("http://localhost:8080/timeline/post/put/" + keepId, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    }).then(() => {
-      alert("編集完了しました。");
-      window.location.reload();
-    });
-  }, [edit, keepId]);
+  const onClickUpdate = useCallback(
+    (postId) => {
+      const data = {
+        post: edit.post,
+      };
+      //保持したidを使って更新
+      fetch("http://localhost:8080/timeline/post/put/" + postId, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then(() => {
+        alert("編集完了しました。");
+        window.location.reload();
+      });
+    },
+    [edit]
+  );
 
   return (
     <>
@@ -120,13 +121,13 @@ export const SUDPost = memo(() => {
                   type="text"
                   id="post"
                   name="post"
-                  value={edit}
+                  value={edit.post}
                   onChange={handleEdit}
                 />
                 <input
                   type="submit"
                   value="送信"
-                  onClick={() => onClickUpdate()}
+                  onClick={() => onClickUpdate(post.id)}
                 />
               </div>
             </Modal>

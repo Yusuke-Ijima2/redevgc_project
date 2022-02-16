@@ -12,7 +12,6 @@ export const CreatePost = () => {
     handleChange,
   } = useFormik({
     initialValues: initialPostValue,
-
     onSubmit: () => {
       saveDate();
     },
