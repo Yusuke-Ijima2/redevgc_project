@@ -2,7 +2,7 @@ import React, { memo } from "react";
 
 export const SeachResult = memo((props) => {
   const { seachValue, inputToFormflag } = props;
-  console.log(seachValue);
+
   return (
     <>
       {seachValue.Value.length !== 0 && inputToFormflag === true ? (

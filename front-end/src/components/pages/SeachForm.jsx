@@ -32,11 +32,8 @@ export const SeachForm = memo(() => {
       <div>
         <button onClick={() => onClickbackToPage()}>戻る</button>
         <h3>検索</h3>
-        <form>
-          <input type="text" value={formValue} onChange={onChangeSeachValue} />
-          <input type="submit" value="検索" onClick={() => onClickSeach()} />
-          {/* <button onClick={() => onClickSeach()}>検索</button> */}
-        </form>
+        <input type="text" value={formValue} onChange={onChangeSeachValue} />
+        <input type="submit" value="検索" onClick={() => onClickSeach()} />
       </div>
       <SeachResult seachValue={seachValue} inputToFormflag={inputToFormflag} />
     </>
