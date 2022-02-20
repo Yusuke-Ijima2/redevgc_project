@@ -1,13 +1,26 @@
 package controller
 
 import (
-	dbconnect "ReDevGC/Project/back-end/database"
-	"ReDevGC/Project/back-end/model"
 	"fmt"
 	"net/http"
+	dbconnect "redevgc_project/back-end/database"
+	"redevgc_project/back-end/model"
 
 	"github.com/labstack/echo"
 )
+
+func UserCreate() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		db := dbconnect.Connect()
+		defer db.Close()
+		result := new(model.User)
+		if err := c.Bind(result); err != nil {
+			return err
+		}
+		db.Create(&result)
+		return c.JSON(http.StatusOK, result)
+	}
+}
 
 func PostCreate() echo.HandlerFunc {
 	return func(c echo.Context) error {
@@ -41,7 +54,7 @@ func PostShowAll() echo.HandlerFunc {
 		db := dbconnect.Connect()
 		defer db.Close()
 		timeline := []model.Timeline{}
-		result := db.Table("timelines").Find(&timeline)
+		result := db.Table("timelines").Preload("User").Find(&timeline)
 		if result.RecordNotFound() {
 			fmt.Println("レコードが見つかりません")
 		}
@@ -86,9 +99,19 @@ func SeachTimelines() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		db := dbconnect.Connect()
 		defer db.Close()
-		timelineValue := []model.Timeline{}
+		timelineValue := []model.SeachTimeline{}
 		value := c.Param("timelineValue")
-		result := db.Table("timelines").Where("title LIKE ?", "%"+value+"%").
+		result := db.Table("timelines").
+			Select(
+				[]string{"timelines.id",
+					"timelines.title",
+					"timelines.post",
+					// "users.first_name",
+					// "users.family_name",
+					// "users.email"
+				}).
+			// Joins("left join users on user.CreditCard_id = CreditCard.id").
+			Where("title LIKE ?", "%"+value+"%").
 			Find(&timelineValue)
 		if result.RecordNotFound() {
 			fmt.Println("レコードが見つかりません")

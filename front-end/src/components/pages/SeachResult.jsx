@@ -5,7 +5,9 @@ export const SeachResult = memo((props) => {
 
   return (
     <>
-      {seachValue.Value.length !== 0 && inputToFormflag === true ? (
+      {seachValue.message ? (
+        <p>入力してください</p>
+      ) : seachValue.Value.length !== 0 && inputToFormflag === true ? (
         seachValue.Value.map((searchResult) => (
           <ul key={searchResult.id}>
             <li>

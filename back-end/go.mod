@@ -1,4 +1,4 @@
-module ReDevGC/Project/back-end
+module redevgc_project/back-end
 
 go 1.17
 
