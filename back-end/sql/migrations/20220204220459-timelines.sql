@@ -1,6 +1,7 @@
 -- +migrate Up
 CREATE TABLE IF NOT EXISTS `timelines` (
     id bigint AUTO_INCREMENT NOT NULL,
+    title VARCHAR(255),
     post VARCHAR(255),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,

@@ -20,5 +20,6 @@ func newRouter() *echo.Echo {
 	e.GET("timeline/post/get", controller.PostShowAll())
 	e.PUT("timeline/post/put/:id", controller.PostUpdate())
 	e.DELETE("timeline/post/delete/:id", controller.PostDelete())
+	e.GET("timeline/seach/:timelineValue", controller.SeachTimelines())
 	return e
 }

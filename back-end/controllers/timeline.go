@@ -13,12 +13,10 @@ func PostCreate() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		db := dbconnect.Connect()
 		defer db.Close()
-
 		result := new(model.Timeline)
 		if err := c.Bind(result); err != nil {
 			return err
 		}
-
 		db.Create(&result)
 		return c.JSON(http.StatusOK, result)
 	}
@@ -30,7 +28,7 @@ func PostShow() echo.HandlerFunc {
 		defer db.Close()
 		timeline := model.Timeline{}
 		timeline_id := c.Param("id")
-		result := db.Table("timelines").Find(&timeline, "id = ?", timeline_id)
+		result := db.Table("timelines").Where("id = ?", timeline_id).Find(&timeline)
 		if result.RecordNotFound() {
 			fmt.Println("レコードが見つかりません")
 		}
@@ -81,5 +79,20 @@ func PostDelete() echo.HandlerFunc {
 		timeline_id := c.Param("id")
 		db.Delete(&newDelete, "id = ?", timeline_id)
 		return c.JSON(http.StatusOK, newDelete)
+	}
+}
+
+func SeachTimelines() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		db := dbconnect.Connect()
+		defer db.Close()
+		timelineValue := []model.Timeline{}
+		value := c.Param("timelineValue")
+		result := db.Table("timelines").Where("title LIKE ?", "%"+value+"%").
+			Find(&timelineValue)
+		if result.RecordNotFound() {
+			fmt.Println("レコードが見つかりません")
+		}
+		return c.JSON(http.StatusOK, result)
 	}
 }
