@@ -1,10 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { TopLayout } from "./components/layout/TopLayout";
+import { BrowserRouter } from "react-router-dom";
+
+import { Router } from "./components/routes/Router";
 
 ReactDOM.render(
   <React.StrictMode>
-    <TopLayout />
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );

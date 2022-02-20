@@ -4,7 +4,7 @@ import Modal from "react-modal";
 export const SUDPost = memo(() => {
   const [posts, setPosts] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [edit, setEdit] = useState({ post: "" });
+  const [edit, setEdit] = useState({ title: "", post: "" });
 
   //削除
   const onClickDelete = (id) => {
@@ -22,6 +22,7 @@ export const SUDPost = memo(() => {
       .then((res) => res.json())
       .then((json) => {
         const data = {
+          title: json.title,
           post: json.post,
         };
         fetch("http://localhost:8080/timeline/post/post", {
@@ -55,21 +56,24 @@ export const SUDPost = memo(() => {
       .then((res) => res.json())
       .then((json) => {
         //取ってきた投稿を保持
-        console.log(json);
         setEdit(json);
       });
   }, []);
 
   //フォームの中を変更できるようにする
-  const handleEdit = useCallback((e) => {
-    const { name, value } = e.target;
-    setEdit({ [name]: value });
-  }, []);
+  const handleEdit = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setEdit({ ...edit, [name]: value });
+    },
+    [edit]
+  );
 
   //更新
   const onClickUpdate = useCallback(
     (postId) => {
       const data = {
+        title: edit.title,
         post: edit.post,
       };
       //保持したidを使って更新
@@ -90,9 +94,11 @@ export const SUDPost = memo(() => {
 
   return (
     <>
+      <h3>投稿一覧</h3>
       {posts.map((post) => (
         <ul key={post.id}>
           <li>
+            <p>{post.title}</p>
             <p>{post.post}</p>
             <input
               type="submit"
@@ -116,7 +122,19 @@ export const SUDPost = memo(() => {
                 onClick={() => setModalIsOpen(false)}
               />
               <div>
-                <label>投稿</label>
+                <div>
+                  <label>タイトル</label>
+                </div>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={edit.title}
+                  onChange={handleEdit}
+                />
+                <div>
+                  <label>投稿</label>
+                </div>
                 <input
                   type="text"
                   id="post"
@@ -124,12 +142,12 @@ export const SUDPost = memo(() => {
                   value={edit.post}
                   onChange={handleEdit}
                 />
-                <input
-                  type="submit"
-                  value="送信"
-                  onClick={() => onClickUpdate(post.id)}
-                />
               </div>
+              <input
+                type="submit"
+                value="送信"
+                onClick={() => onClickUpdate(post.id)}
+              />
             </Modal>
           </li>
         </ul>
