@@ -102,14 +102,14 @@ func SeachTimelines() echo.HandlerFunc {
 		timelineValue := []model.SeachTimeline{}
 		value := c.Param("timelineValue")
 		result := db.Table("timelines").
-			Select(
-				[]string{"timelines.id",
-					"timelines.title",
-					"timelines.post",
-					// "users.first_name",
-					// "users.family_name",
-					// "users.email"
-				}).
+			// Select(
+			// 	[]string{"timelines.id",
+			// 		"timelines.title",
+			// 		"timelines.post",
+			// "users.first_name",
+			// "users.family_name",
+			// "users.email"
+			// }).
 			// Joins("left join users on user.CreditCard_id = CreditCard.id").
 			Where("title LIKE ?", "%"+value+"%").
 			Find(&timelineValue)
