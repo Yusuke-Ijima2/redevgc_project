@@ -1,8 +1,8 @@
 package controller
 
 import (
-	dbconnect "ReDevGC/Project/back-end/database"
-	"ReDevGC/Project/back-end/model"
+	dbconnect "ReDevGC/back-end/database"
+	"ReDevGC/back-end/model"
 	"fmt"
 	"net/http"
 

@@ -1,7 +1,7 @@
 package main
 
 import (
-	controller "ReDevGC/Project/back-end/controllers"
+	controller "ReDevGC/back-end/controllers"
 	"net/http"
 
 	"github.com/labstack/echo"
