@@ -8,12 +8,11 @@ import { usePostEdit } from "../../hooks/usePostEdit";
 
 export const SUDPost = memo(() => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const { posts, getPosts } = usePostAllGet();
+  const { posts } = usePostAllGet();
   const { deletePost } = usePostDelete();
   const { duplicatePost } = usePostDuplicate();
   const { edit, getPost, handleEdit, updatePost } = usePostEdit();
 
-  useEffect(() => getPosts(), []);
   //削除
   const onClickDelete = (id) => deletePost(id);
   //複製
