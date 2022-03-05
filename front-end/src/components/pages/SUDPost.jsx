@@ -19,11 +19,13 @@ export const SUDPost = memo(() => {
   //複製
   const onClickDuplicate = (id) => duplicatePost(id);
   //編集
-  const onClickEdit = useCallback((id) => {
+  const onClickEdit = (id) => {
     setModalIsOpen(true);
     getPost(id);
-  }, []);
-  const onClickUpdate = (id) => updatePost(id, edit);
+  };
+  const onClickUpdate = (id) => {
+    updatePost(id);
+  };
 
   return (
     <>
@@ -79,7 +81,7 @@ export const SUDPost = memo(() => {
               <input
                 type="submit"
                 value="送信"
-                onClick={() => onClickUpdate(post.id)}
+                onClick={() => onClickUpdate(edit.id)}
               />
             </Modal>
           </li>

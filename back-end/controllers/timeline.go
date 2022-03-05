@@ -41,7 +41,10 @@ func PostShow() echo.HandlerFunc {
 		defer db.Close()
 		timeline := model.Timeline{}
 		timeline_id := c.Param("id")
-		result := db.Table("timelines").Where("id = ?", timeline_id).Find(&timeline)
+		result := db.Table("timelines").
+			Where("id = ?", timeline_id).
+			Order("timelines.updated_at desc").
+			Find(&timeline)
 		if result.RecordNotFound() {
 			fmt.Println("レコードが見つかりません")
 		}
@@ -54,7 +57,10 @@ func PostShowAll() echo.HandlerFunc {
 		db := dbconnect.Connect()
 		defer db.Close()
 		timeline := []model.Timeline{}
-		result := db.Table("timelines").Preload("User").Find(&timeline)
+		result := db.Table("timelines").
+			Preload("User").
+			Order("timelines.updated_at desc").
+			Find(&timeline)
 		if result.RecordNotFound() {
 			fmt.Println("レコードが見つかりません")
 		}
