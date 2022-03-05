@@ -2,7 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 
 import { useHistory } from "react-router-dom";
-import { usePostCreate } from "../../hooks/usePostCreate";
+import { usePostCreate } from "../../hooks/post/usePostCreate";
 
 export const CreatePost = () => {
   const { CreatePost } = usePostCreate();

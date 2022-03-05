@@ -1,10 +1,10 @@
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { memo, useState } from "react";
 import Modal from "react-modal";
 
-import { usePostAllGet } from "../../hooks/usePostAllGet";
-import { usePostDelete } from "../../hooks/usePostDelete";
-import { usePostDuplicate } from "../../hooks/usePostDuplicate";
-import { usePostEdit } from "../../hooks/usePostEdit";
+import { usePostAllGet } from "../../hooks/post/usePostAllGet";
+import { usePostDelete } from "../../hooks/post/usePostDelete";
+import { usePostDuplicate } from "../../hooks/post/usePostDuplicate";
+import { usePostEdit } from "../../hooks/post/usePostEdit";
 
 export const SUDPost = memo(() => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -18,13 +18,12 @@ export const SUDPost = memo(() => {
   //複製
   const onClickDuplicate = (id) => duplicatePost(id);
   //編集
-  const onClickEdit = (id) => {
+  const onClickModalIsOpen = (id) => {
     setModalIsOpen(true);
     getPost(id);
   };
-  const onClickUpdate = (id) => {
-    updatePost(id);
-  };
+  const handleEditChange = (id) => handleEdit(id);
+  const onClickUpdate = (id) => updatePost(id);
 
   return (
     <>
@@ -47,7 +46,7 @@ export const SUDPost = memo(() => {
             <input
               type="submit"
               value="編集"
-              onClick={() => onClickEdit(post.id)}
+              onClick={() => onClickModalIsOpen(post.id)}
             />
             <Modal isOpen={modalIsOpen} ariaHideApp={false}>
               <input
@@ -64,7 +63,7 @@ export const SUDPost = memo(() => {
                   id="title"
                   name="title"
                   value={edit.title}
-                  onChange={handleEdit}
+                  onChange={handleEditChange}
                 />
                 <div>
                   <label>投稿</label>
@@ -74,7 +73,7 @@ export const SUDPost = memo(() => {
                   id="post"
                   name="post"
                   value={edit.post}
-                  onChange={handleEdit}
+                  onChange={handleEditChange}
                 />
               </div>
               <input
