@@ -1,96 +1,29 @@
 import React, { memo, useCallback, useEffect, useState } from "react";
 import Modal from "react-modal";
 
+import { usePostAllGet } from "../../hooks/usePostAllGet";
+import { usePostDelete } from "../../hooks/usePostDelete";
+import { usePostDuplicate } from "../../hooks/usePostDuplicate";
+import { usePostEdit } from "../../hooks/usePostEdit";
+
 export const SUDPost = memo(() => {
-  const [posts, setPosts] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [edit, setEdit] = useState({ title: "", post: "" });
+  const { posts, getPosts } = usePostAllGet();
+  const { deletePost } = usePostDelete();
+  const { duplicatePost } = usePostDuplicate();
+  const { edit, getPost, handleEdit, updatePost } = usePostEdit();
 
+  useEffect(() => getPosts(), []);
   //削除
-  const onClickDelete = (id) => {
-    window.confirm("本当に削除しますか？") &&
-      fetch("http://localhost:8080/timeline/post/delete/" + id, {
-        method: "DELETE",
-      }).then(() => {
-        window.location.reload();
-      });
-  };
-
+  const onClickDelete = (id) => deletePost(id);
   //複製
-  const onClickDuplicate = (id) => {
-    fetch("http://localhost:8080/timeline/post/get/" + id)
-      .then((res) => res.json())
-      .then((json) => {
-        const data = {
-          title: json.title,
-          post: json.post,
-        };
-        fetch("http://localhost:8080/timeline/post/post", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }).then(() => {
-          alert("複製完了しました。");
-          window.location.reload();
-        });
-      });
-  };
-
+  const onClickDuplicate = (id) => duplicatePost(id);
   //編集
-  //投稿一覧を取ってくる
-  useEffect(() => {
-    fetch("http://localhost:8080/timeline/post/get")
-      .then((res) => res.json())
-      .then((json) => {
-        setPosts(json);
-      });
-  }, []);
-
   const onClickEdit = useCallback((id) => {
-    //モーダルを開く
     setModalIsOpen(true);
-    fetch("http://localhost:8080/timeline/post/get/" + id)
-      .then((res) => res.json())
-      .then((json) => {
-        //取ってきた投稿を保持
-        setEdit(json);
-      });
+    getPost(id);
   }, []);
-
-  //フォームの中を変更できるようにする
-  const handleEdit = useCallback(
-    (e) => {
-      const { name, value } = e.target;
-      setEdit({ ...edit, [name]: value });
-    },
-    [edit]
-  );
-
-  //更新
-  const onClickUpdate = useCallback(
-    (postId) => {
-      const data = {
-        title: edit.title,
-        post: edit.post,
-      };
-      //保持したidを使って更新
-      fetch("http://localhost:8080/timeline/post/put/" + postId, {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }).then(() => {
-        alert("編集完了しました。");
-        window.location.reload();
-      });
-    },
-    [edit]
-  );
+  const onClickUpdate = (id) => updatePost(id, edit);
 
   return (
     <>

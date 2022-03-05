@@ -2,8 +2,10 @@ import React from "react";
 import { useFormik } from "formik";
 
 import { useHistory } from "react-router-dom";
+import { usePostCreate } from "../../hooks/usePostCreate";
 
 export const CreatePost = () => {
+  const { CreatePost } = usePostCreate();
   const initialPostValue = {
     title: "",
     post: "",
@@ -21,21 +23,7 @@ export const CreatePost = () => {
   });
 
   const saveDate = () => {
-    const data = {
-      title: newPostData.title,
-      post: newPostData.post,
-    };
-    fetch("http://localhost:8080/timeline/post/post", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    }).then(() => {
-      alert("保存完了しました。");
-      window.location.reload();
-    });
+    CreatePost(newPostData);
   };
 
   const history = useHistory();

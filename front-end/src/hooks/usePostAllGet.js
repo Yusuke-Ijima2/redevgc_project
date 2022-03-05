@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useTimeline = () => {
+export const usePostAllGet = () => {
   const [posts, setPosts] = useState([]);
   const getPosts = () => {
     //投稿一覧を取ってくる
