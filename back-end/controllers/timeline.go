@@ -122,6 +122,6 @@ func SeachTimelines() echo.HandlerFunc {
 		if result.RecordNotFound() {
 			fmt.Println("レコードが見つかりません")
 		}
-		return c.JSON(http.StatusOK, result)
+		return c.JSON(http.StatusOK, result.Value)
 	}
 }

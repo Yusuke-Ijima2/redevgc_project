@@ -4,9 +4,7 @@ import { useHistory } from "react-router-dom";
 import { SeachResult } from "./SeachResult";
 
 export const SeachForm = memo(() => {
-  const [seachValue, setSeachValue] = useState({
-    Value: [],
-  });
+  const [seachValue, setSeachValue] = useState([]);
   const [formValue, setFormValue] = useState("");
   const [inputToFormflag, setInputToFormflag] = useState(false);
 

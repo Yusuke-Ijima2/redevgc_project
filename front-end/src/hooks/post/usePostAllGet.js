@@ -9,6 +9,13 @@ export const usePostAllGet = () => {
       .then((json) => {
         setPosts(json);
       });
+
+    // const callApi = async () => {
+    //   const res = await fetch("http://localhost:8080/timeline/post/get");
+    //   const users = await res.json();
+    //   console.log(users);
+    // };
+    // callApi();
   }, []);
   return { posts };
 };
